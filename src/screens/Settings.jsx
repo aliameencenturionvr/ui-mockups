@@ -15,64 +15,35 @@ const devices={
   iphone:{name:"iPhone Pro Max",pw:430,ph:932,lw:932,lh:430},
 };
 
-/* ============ SETTINGS DATA ============ */
-const settingsSections=[
-  {
-    id:"camera",name:"CAMERA",icon:"\u{1F4F7}",
-    items:[
-      {id:"cam_mode",label:"Camera",type:"toggle",options:["FRONT","REAR"],defaultVal:0},
-      {id:"sensitivity",label:"Sensitivity",type:"slider",min:1,max:10,defaultVal:5},
-      {id:"small_room",label:"Small Room Mode",type:"switch",defaultVal:false,tag:"NEW"},
-    ],
-  },
-  {
-    id:"gameplay",name:"GAMEPLAY",icon:"\u{1F3AE}",
-    items:[
-      {id:"default_overs",label:"Default Overs",type:"toggle",options:["1","3","5"],defaultVal:1},
-      {id:"difficulty",label:"Difficulty",type:"toggle",options:["ROOKIE","CLUB","INTL","LEGEND"],defaultVal:1},
-      {id:"landing_marker",label:"Landing Marker",type:"switch",defaultVal:true},
-      {id:"camera_view",label:"Camera View",type:"toggle",options:["BROADCAST","CLOSE-UP"],defaultVal:0},
-    ],
-  },
-  {
-    id:"audio",name:"AUDIO",icon:"\u{1F50A}",
-    items:[
-      {id:"master_vol",label:"Master",type:"slider",min:0,max:100,defaultVal:80},
-      {id:"sfx_vol",label:"SFX",type:"slider",min:0,max:100,defaultVal:70},
-      {id:"music_vol",label:"Music",type:"slider",min:0,max:100,defaultVal:60},
-      {id:"commentary_vol",label:"Commentary",type:"slider",min:0,max:100,defaultVal:50},
-      {id:"crowd_vol",label:"Crowd",type:"slider",min:0,max:100,defaultVal:40},
-    ],
-  },
-  {
-    id:"accessibility",name:"ACCESSIBILITY",icon:"\u267F",
-    items:[
-      {id:"seated_mode",label:"Seated Mode",type:"switch",defaultVal:false},
-      {id:"high_contrast",label:"High Contrast",type:"switch",defaultVal:false},
-      {id:"colorblind",label:"Colorblind Mode",type:"switch",defaultVal:false},
-      {id:"haptic",label:"Haptic Feedback",type:"switch",defaultVal:true},
-      {id:"audio_cues",label:"Audio Cues",type:"switch",defaultVal:true},
-    ],
-  },
-  {
-    id:"notifications",name:"NOTIFICATIONS",icon:"\u{1F514}",
-    items:[
-      {id:"notif_challenges",label:"Challenges",type:"switch",defaultVal:true},
-      {id:"notif_leaderboard",label:"Leaderboard",type:"switch",defaultVal:true},
-      {id:"notif_friends",label:"Friends",type:"switch",defaultVal:false},
-      {id:"notif_tournament",label:"Tournament",type:"switch",defaultVal:true},
-    ],
-  },
-  {
-    id:"account",name:"ACCOUNT",icon:"\u{1F464}",
-    items:[
-      {id:"player_id",label:"Player ID",type:"info",value:"TSC-4829-XKRM"},
-      {id:"link_account",label:"Link Account",type:"button",buttonLabel:"LINK"},
-      {id:"privacy",label:"Privacy Policy",type:"button",buttonLabel:"VIEW"},
-      {id:"terms",label:"Terms of Service",type:"button",buttonLabel:"VIEW"},
-      {id:"delete_account",label:"Delete Account",type:"button",buttonLabel:"DELETE",danger:true},
-    ],
-  },
+/* ============ SETTINGS DATA — flat list with section headers ============ */
+const settingsItems=[
+  {type:"header",label:"CAMERA",icon:"\u{1F4F7}"},
+  {id:"small_room",label:"Small Room Mode",type:"switch",defaultVal:false,tag:"NEW"},
+
+  {type:"header",label:"GAMEPLAY",icon:"\u{1F3AE}"},
+  {id:"difficulty",label:"Difficulty",type:"toggle",options:["ROOKIE","CLUB","INTL","LEGEND"],defaultVal:1},
+  {id:"landing_marker",label:"Landing Marker",type:"switch",defaultVal:true},
+  {id:"camera_view",label:"Camera View",type:"toggle",options:["BROADCAST","CLOSE-UP"],defaultVal:0},
+
+  {type:"header",label:"AUDIO",icon:"\u{1F50A}"},
+  {id:"master_vol",label:"Master",type:"slider",min:0,max:100,defaultVal:80},
+  {id:"sfx_vol",label:"SFX",type:"slider",min:0,max:100,defaultVal:70},
+  {id:"music_vol",label:"Music",type:"slider",min:0,max:100,defaultVal:60},
+  {id:"commentary_vol",label:"Commentary",type:"slider",min:0,max:100,defaultVal:50},
+  {id:"crowd_vol",label:"Crowd",type:"slider",min:0,max:100,defaultVal:40},
+
+  {type:"header",label:"NOTIFICATIONS",icon:"\u{1F514}"},
+  {id:"notif_challenges",label:"Challenges",type:"switch",defaultVal:true},
+  {id:"notif_leaderboard",label:"Leaderboard",type:"switch",defaultVal:true},
+  {id:"notif_friends",label:"Friends",type:"switch",defaultVal:false},
+  {id:"notif_tournament",label:"Tournament",type:"switch",defaultVal:true},
+
+  {type:"header",label:"ACCOUNT",icon:"\u{1F464}"},
+  {id:"player_id",label:"Player ID",type:"info",value:"TSC-4829-XKRM"},
+  {id:"link_account",label:"Link Account",type:"button",buttonLabel:"LINK"},
+  {id:"privacy",label:"Privacy Policy",type:"button",buttonLabel:"VIEW"},
+  {id:"terms",label:"Terms of Service",type:"button",buttonLabel:"VIEW"},
+  {id:"delete_account",label:"Delete Account",type:"button",buttonLabel:"DELETE",danger:true},
 ];
 
 export default function Settings(){
@@ -81,16 +52,16 @@ export default function Settings(){
   const[ori,setOri]=useState("portrait");
   const[dev,setDev]=useState("ipad");
   const[ws,setWs]=useState({w:window.innerWidth,h:window.innerHeight});
-  const[activeSection,setActiveSection]=useState(0);
 
   /* Settings state: map of id -> value */
   const[vals,setVals]=useState(()=>{
     const m={};
-    settingsSections.forEach(sec=>sec.items.forEach(it=>{
+    settingsItems.forEach(it=>{
+      if(it.type==="header")return;
       if(it.type==="info")m[it.id]=it.value;
       else if(it.type==="button")m[it.id]=null;
       else m[it.id]=it.defaultVal;
-    }));
+    });
     return m;
   });
 
@@ -110,7 +81,6 @@ export default function Settings(){
   const z=(a,b,c,d)=>(isPhL?a:isPh?b:isP?d:c)*s;
 
   const cardBg={background:t.card,backdropFilter:"blur(20px)"};
-  const sec=settingsSections[activeSection];
 
   /* ============ BACK BUTTON ============ */
   const BackBtn=()=>(
@@ -128,25 +98,6 @@ export default function Settings(){
     <div style={{display:"flex",alignItems:"center",gap:z(4,10,8,12),marginBottom:z(3,8,6,10)}}>
       <span style={{fontSize:z(16,32,28,36)}}>{"\u2699\uFE0F"}</span>
       <div style={{fontSize:z(12,24,20,28),fontWeight:900,color:t.tx,letterSpacing:z(2,4,3,4)}}>SETTINGS</div>
-    </div>
-  );
-
-  /* ============ SECTION TABS ============ */
-  const SectionTabs=()=>(
-    <div style={{display:"flex",gap:z(2,4,3,4),marginBottom:z(3,8,6,10),flexWrap:"wrap"}}>
-      {settingsSections.map((sc,i)=>(
-        <button key={sc.id} onClick={()=>setActiveSection(i)} style={{
-          padding:`${z(3,7,5,8)}px ${z(5,12,10,14)}px`,
-          borderRadius:z(4,8,6,10),border:`${1*s}px solid ${activeSection===i?t.a+"88":t.td+"44"}`,
-          background:activeSection===i?`${t.a}22`:"transparent",
-          color:activeSection===i?t.a:t.tm,fontSize:z(5,10,9,12),fontWeight:800,
-          cursor:"pointer",letterSpacing:0.3*s,
-          display:"flex",alignItems:"center",gap:z(2,4,3,5),
-        }}>
-          <span style={{fontSize:z(7,14,12,16)}}>{sc.icon}</span>
-          {sc.name}
-        </button>
-      ))}
     </div>
   );
 
@@ -223,6 +174,19 @@ export default function Settings(){
     );
   };
 
+  /* ============ SECTION HEADER ============ */
+  const SectionHeader=({item})=>(
+    <div style={{
+      display:"flex",alignItems:"center",gap:z(3,6,5,8),
+      marginTop:z(4,10,8,12),marginBottom:z(2,4,3,5),
+      paddingBottom:z(2,4,3,5),
+      borderBottom:`${1*s}px solid ${t.td}33`,
+    }}>
+      <span style={{fontSize:z(9,18,16,20)}}>{item.icon}</span>
+      <span style={{fontSize:z(6,12,10,14),fontWeight:900,color:t.a,letterSpacing:z(1,2,2,3)}}>{item.label}</span>
+    </div>
+  );
+
   /* ============ SETTING ROW ============ */
   const SettingRow=({item})=>(
     <div style={{
@@ -262,16 +226,14 @@ export default function Settings(){
     </div>
   );
 
-  /* ============ SECTION CONTENT ============ */
-  const SectionContent=()=>(
+  /* ============ ALL SETTINGS LIST ============ */
+  const SettingsList=()=>(
     <div style={{flex:1,overflow:"auto"}}>
-      {/* Section header */}
-      <div style={{display:"flex",alignItems:"center",gap:z(3,8,6,10),marginBottom:z(3,8,6,10)}}>
-        <span style={{fontSize:z(14,28,24,32)}}>{sec.icon}</span>
-        <div style={{fontSize:z(10,20,18,24),fontWeight:900,color:t.tx,letterSpacing:z(1,3,2,3)}}>{sec.name}</div>
-      </div>
-      {/* Items */}
-      {sec.items.map(item=><SettingRow key={item.id} item={item}/>)}
+      {settingsItems.map((item,i)=>
+        item.type==="header"
+          ?<SectionHeader key={i} item={item}/>
+          :<SettingRow key={item.id} item={item}/>
+      )}
     </div>
   );
 
@@ -281,8 +243,7 @@ export default function Settings(){
       <BackBtn/>
       <div style={{width:width||"auto",maxWidth:maxW,display:"flex",flexDirection:"column",flex:1,paddingTop:padTop,...(!width&&{padding:`${padTop}px ${z(0,14,0,14)}px ${z(0,10,0,10)}px`})}}>
         <Header/>
-        <SectionTabs/>
-        <SectionContent/>
+        <SettingsList/>
       </div>
     </div>
   );

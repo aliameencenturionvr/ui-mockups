@@ -84,9 +84,9 @@ const screens = [
     path: "/settings",
     name: "SETTINGS",
     icon: "\u{1F527}",
-    desc: "6 categories (Camera/Gameplay/Audio/Accessibility/Notifications/Account), toggles, sliders, switches.",
+    desc: "Single scrollable list: Camera, Gameplay, Audio, Notifications, Account. Toggles, sliders, switches.",
     status: "DONE",
-    tags: ["6 categories", "Interactive controls", "Small Room Mode", "Volume sliders"],
+    tags: ["5 sections", "Interactive controls", "Small Room Mode", "Volume sliders"],
     versions: [
       { v: "v1", label: "v1", desc: "Current" },
     ],
