@@ -175,10 +175,10 @@ export default function Settings(){
   };
 
   /* ============ SECTION HEADER ============ */
-  const SectionHeader=({item})=>(
+  const SectionHeader=({item,first})=>(
     <div style={{
       display:"flex",alignItems:"center",gap:z(3,6,5,8),
-      marginTop:z(4,10,8,12),marginBottom:z(2,4,3,5),
+      marginTop:first?0:z(4,10,8,12),marginBottom:z(2,4,3,5),
       paddingBottom:z(2,4,3,5),
       borderBottom:`${1*s}px solid ${t.td}33`,
     }}>
@@ -228,10 +228,10 @@ export default function Settings(){
 
   /* ============ ALL SETTINGS LIST ============ */
   const SettingsList=()=>(
-    <div style={{flex:1,overflow:"auto"}}>
+    <div style={{flex:1,overflow:"auto",minHeight:0}}>
       {settingsItems.map((item,i)=>
         item.type==="header"
-          ?<SectionHeader key={i} item={item}/>
+          ?<SectionHeader key={i} item={item} first={i===0}/>
           :<SettingRow key={item.id} item={item}/>
       )}
     </div>
@@ -241,7 +241,7 @@ export default function Settings(){
   const buildLayout=(padTop,width,maxW)=>(
     <div style={{position:"relative",width:"100%",height:"100%",display:"flex",flexDirection:"column",alignItems:width?"center":"stretch",overflow:"hidden"}}>
       <BackBtn/>
-      <div style={{width:width||"auto",maxWidth:maxW,display:"flex",flexDirection:"column",flex:1,paddingTop:padTop,...(!width&&{padding:`${padTop}px ${z(0,14,0,14)}px ${z(0,10,0,10)}px`})}}>
+      <div style={{width:width||"auto",maxWidth:maxW,display:"flex",flexDirection:"column",flex:1,minHeight:0,overflow:"hidden",paddingTop:padTop,...(!width&&{padding:`${padTop}px ${z(0,14,0,14)}px ${z(0,10,0,10)}px`})}}>
         <Header/>
         <SettingsList/>
       </div>
