@@ -91,13 +91,36 @@ const screens = [
       { v: "v1", label: "v1", desc: "Current" },
     ],
   },
+  {
+    path: "/camera-calibration",
+    name: "CAMERA CALIBRATION",
+    icon: "\u{1F4F7}",
+    desc: "Full-screen camera overlay with body tracking panel, ghost silhouette, distance feedback bar, countdown. Tap to cycle states.",
+    status: "DONE",
+    tags: ["AR camera view", "Body tracking", "Distance feedback", "9 states"],
+    versions: [{ v: "v1", label: "v1", desc: "Current" }],
+  },
+  {
+    path: "/player-profile",
+    name: "PLAYER PROFILE",
+    icon: "\u{1F464}",
+    desc: "Hero section, 8 career stats, achievement grid, hexagonal mastery radar chart, match history, player ID.",
+    status: "DONE",
+    tags: ["Stats grid", "Achievements", "SVG radar chart", "Match history"],
+    versions: [{ v: "v1", label: "v1", desc: "Current" }],
+  },
+  {
+    path: "/onboarding",
+    name: "ONBOARDING",
+    icon: "\u{1F44B}",
+    desc: "6-step FTUE: welcome, device setup, positioning, hand pointer, batting, ready. Step dots, illustrations, voice hint.",
+    status: "DONE",
+    tags: ["6 steps", "Illustrations", "Voice commands", "Interactive"],
+    versions: [{ v: "v1", label: "v1", desc: "Current" }],
+  },
 ];
 
-const planned = [
-  { name: "Camera Calibration", icon: "\u{1F4F7}" },
-  { name: "Player Profile", icon: "\u{1F464}" },
-  { name: "Onboarding", icon: "\u{1F44B}" },
-];
+const planned = [];
 
 export default function Home() {
   const navigate = useNavigate();

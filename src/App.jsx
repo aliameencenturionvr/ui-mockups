@@ -8,6 +8,9 @@ import DailyChallenge from "./screens/DailyChallenge";
 import Leaderboard from "./screens/Leaderboard";
 import Shop from "./screens/Shop";
 import Settings from "./screens/Settings";
+import CameraCalibration from "./screens/CameraCalibration";
+import PlayerProfile from "./screens/PlayerProfile";
+import Onboarding from "./screens/Onboarding";
 
 export default function App() {
   return (
@@ -22,6 +25,9 @@ export default function App() {
         <Route path="/leaderboard" element={<Leaderboard />} />
         <Route path="/shop" element={<Shop />} />
         <Route path="/settings" element={<Settings />} />
+        <Route path="/camera-calibration" element={<CameraCalibration />} />
+        <Route path="/player-profile" element={<PlayerProfile />} />
+        <Route path="/onboarding" element={<Onboarding />} />
       </Routes>
     </BrowserRouter>
   );
